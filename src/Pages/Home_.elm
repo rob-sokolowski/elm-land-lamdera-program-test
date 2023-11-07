@@ -2,10 +2,11 @@ module Pages.Home_ exposing (Model, Msg(..), page)
 
 import Bridge
 import Effect exposing (..)
+import Effect.Lamdera
+import Effect.Subscription as Subscription exposing (Subscription)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Lamdera
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -50,7 +51,7 @@ update msg model =
     case msg of
         SmashedLikeButton ->
             ( model
-            , Effect.sendCmd <| Lamdera.sendToBackend Bridge.SmashedLikeButton
+            , Effect.sendCmd <| Effect.Lamdera.sendToBackend Bridge.SmashedLikeButton
             )
 
 
@@ -58,9 +59,9 @@ update msg model =
 -- SUBSCRIPTIONS
 
 
-subscriptions : Model -> Sub Msg
+subscriptions : Model -> Subscription restriction Msg
 subscriptions model =
-    Sub.none
+    Subscription.none
 
 
 
