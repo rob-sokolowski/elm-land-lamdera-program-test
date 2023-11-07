@@ -1,16 +1,17 @@
 module Frontend exposing (..)
 
 import Browser exposing (UrlRequest(..))
-import Browser.Navigation as Nav
+import Effect.Browser.Navigation as Nav
+import Effect.Command as Command exposing (Command)
+import Effect.Lamdera
+import Effect.Task
+import Effect.Time
 import Html
 import Html.Attributes as Attr
 import Json.Encode
-import Lamdera
 import Main as ElmLand
 import Pages.Home_
 import Shared.Msg
-import Task
-import Time
 import Types exposing (..)
 import Url
 
@@ -20,7 +21,7 @@ type alias Model =
 
 
 app =
-    Lamdera.frontend
+    Effect.Lamdera.frontend
         { init = ElmLand.init Json.Encode.null
         , onUrlRequest = ElmLand.UrlRequested
         , onUrlChange = ElmLand.UrlChanged
@@ -31,13 +32,13 @@ app =
         }
 
 
-updateFromBackend : ToFrontend -> Model -> ( Model, Cmd FrontendMsg )
+updateFromBackend : ToFrontend -> Model -> ( Model, Command restriction toMsg FrontendMsg )
 updateFromBackend msg model =
     case msg of
         NewSmashedLikes smashedLikes ->
             ( model, sendSharedMsg <| Shared.Msg.GotNewSmashedLikes smashedLikes )
 
 
-sendSharedMsg : Shared.Msg.Msg -> Cmd FrontendMsg
+sendSharedMsg : Shared.Msg.Msg -> Command restriction toMsg FrontendMsg
 sendSharedMsg msg =
-    Time.now |> Task.perform (always (ElmLand.Shared msg))
+    Effect.Time.now |> Effect.Task.perform (always (ElmLand.Shared msg))

@@ -13,6 +13,7 @@ module Shared exposing
 -}
 
 import Effect exposing (Effect)
+import Effect.Subscription as Subscription exposing (Subscription)
 import Json.Decode
 import Route exposing (Route)
 import Route.Path
@@ -69,6 +70,6 @@ update route msg model =
 -- SUBSCRIPTIONS
 
 
-subscriptions : Route () -> Model -> Sub Msg
+subscriptions : Route () -> Model -> Subscription restriction Msg
 subscriptions route model =
-    Sub.none
+    Subscription.none

@@ -2,8 +2,8 @@ module Types exposing (..)
 
 import Bridge
 import Browser exposing (UrlRequest)
-import Browser.Navigation exposing (Key)
-import Lamdera exposing (ClientId, SessionId)
+import Effect.Browser.Navigation exposing (Key)
+import Effect.Lamdera exposing (ClientId, SessionId)
 import Main as ElmLand
 import Url exposing (Url)
 
